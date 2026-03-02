@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { PT_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+const ptSerif = PT_Serif({
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
   variable: "--font-playfair",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
 });
 
 const inter = Inter({
@@ -39,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="mn" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="mn" className={`${ptSerif.variable} ${inter.variable}`}>
       <body>
         <Navbar />
         <main>{children}</main>
