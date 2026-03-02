@@ -1,0 +1,188 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== USERS ====================
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String   @unique
+  lastName  String
+  firstName String
+  email     String?
+  role      Role     @default(USER)
+  bookings  Booking[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// ==================== ROOMS ====================
+
+model Room {
+  id            String        @id @default(cuid())
+  name          String        // "Энгийн өрөө", "Хагас люкс", "Бүтэн люкс"
+  type          RoomType
+  bedCount      Int           // 2, 3, 5, 6, 7
+  pricePerNight Int           // 1 хүний 1 хоногийн үнэ (төгрөг)
+  floor         Int           // 1, 2, 3
+  building      String        // "main" | "extension"
+  roomNumber    String        // "101", "205"
+  description   String?
+  images        String[]      // Зургуудын URL
+  isActive      Boolean       @default(true)
+  bookingRooms  BookingRoom[]
+  locks         RoomLock[]
+
+  @@unique([building, roomNumber])
+}
+
+enum RoomType {
+  STANDARD  // Энгийн өрөө
+  SEMI_LUX  // Хагас люкс
+  LUX       // Бүтэн люкс
+}
+
+// ==================== BOOKINGS ====================
+
+model Booking {
+  id             String        @id @default(cuid())
+
+  // Optional user (guest checkout боломжтой)
+  userId         String?
+  user           User?         @relation(fields: [userId], references: [id])
+
+  // Guest мэдээлэл (бүртгэлгүй хэрэглэгчдэд)
+  guestLastName  String
+  guestFirstName String
+  guestPhone     String
+  guestEmail     String?
+
+  // Захиалгын мэдээлэл
+  checkIn        DateTime
+  checkOut       DateTime
+  nights         Int
+  transport      TransportType
+
+  // Зочдын тоо
+  adultCount     Int
+
+  // Төлбөр
+  totalPrice     Int           // Нийт үнэ (төгрөг)
+  status         BookingStatus @default(PENDING)
+
+  // QPay
+  qpayInvoiceId  String?
+  qpayPaymentId  String?
+  paidAt         DateTime?
+
+  // Relations
+  rooms          BookingRoom[]
+  children       BookingChild[]
+  cancellation   CancellationRequest?
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+enum TransportType {
+  PRIVATE  // Өөрийн тээвэр
+  BUS      // Сувиллалын автобус
+}
+
+enum BookingStatus {
+  PENDING    // QPay төлбөр хийгдээгүй
+  CONFIRMED  // Төлбөр баталгаажсан
+  CANCELLED  // Цуцлагдсан
+  COMPLETED  // Дууссан
+}
+
+model BookingRoom {
+  id        String  @id @default(cuid())
+  bookingId String
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  roomId    String
+  room      Room    @relation(fields: [roomId], references: [id])
+
+  @@unique([bookingId, roomId])
+}
+
+model BookingChild {
+  id            String  @id @default(cuid())
+  bookingId     String
+  booking       Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  ageMin        Int     // Нас (доод)
+  ageMax        Int     // Нас (дээд)
+  hasBed        Boolean // Ор эзлэх эсэх
+  withTreatment Boolean @default(false) // Эмчилгээтэй эсэх
+  pricePerNight Int     // Тооцоолсон үнэ
+}
+
+// ==================== ROOM LOCKS ====================
+
+// Admin-н гар захиалга (утсаар авсан)
+model RoomLock {
+  id        String   @id @default(cuid())
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  startDate DateTime
+  endDate   DateTime
+  reason    String?  // Admin тэмдэглэл
+  createdBy String   // Admin-н ID
+  createdAt DateTime @default(now())
+}
+
+// ==================== AVAILABILITY LOCK ====================
+
+// Real-time lock: Хэрэглэгч өрөө сонгосноос QPay дуустал (10 мин)
+model BookingSession {
+  id        String   @id @default(cuid())
+  roomIds   String[] // Lock хийгдсэн өрөөнүүдийн ID
+  checkIn   DateTime
+  checkOut  DateTime
+  expiresAt DateTime // now() + 10 минут
+  createdAt DateTime @default(now())
+}
+
+// ==================== CANCELLATION ====================
+
+model CancellationRequest {
+  id         String             @id @default(cuid())
+  bookingId  String             @unique
+  booking    Booking            @relation(fields: [bookingId], references: [id])
+  reason     String?
+  status     CancellationStatus @default(PENDING)
+  reviewedBy String?            // Admin ID
+  reviewedAt DateTime?
+  adminNote  String?
+  createdAt  DateTime           @default(now())
+}
+
+enum CancellationStatus {
+  PENDING   // Admin хүлээж байгаа
+  APPROVED  // Зөвшөөрөгдсөн
+  REJECTED  // Татгалзсан
+}
+
+// ==================== BUS SCHEDULE ====================
+
+model BusSchedule {
+  id         String   @id @default(cuid())
+  dayOfWeek  Int[]    // [1, 3, 6] = Даваа, Лхагва, Бямба
+  isActive   Boolean  @default(true)
+  note       String?  // "УБ-Хужирт-УБ"
+  updatedAt  DateTime @updatedAt
+  updatedBy  String?  // Admin ID
+}
