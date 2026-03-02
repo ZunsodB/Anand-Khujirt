@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Phone, Menu, X, UserCircle } from "lucide-react";
-import Image from "next/image";
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -27,29 +26,19 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
-                    <a href="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 relative flex-shrink-0">
-                            <Image
-                                src="/images/logo.png"
-                                alt="Ананд Хужирт лого"
-                                fill
-                                className="object-contain"
-                            />
-                        </div>
-                        <div className="flex flex-col">
-                            <span
-                                className={`font-serif text-xl font-bold tracking-wide transition-colors duration-300 ${isScrolled ? "text-emerald-dark" : "text-white"
-                                    }`}
-                            >
-                                АНАНД ХУЖИРТ
-                            </span>
-                            <span
-                                className={`text-xs tracking-[0.2em] uppercase transition-colors duration-300 ${isScrolled ? "text-muted" : "text-white/70"
-                                    }`}
-                            >
-                                Сувилал
-                            </span>
-                        </div>
+                    <a href="/" className="flex flex-col group">
+                        <span
+                            className={`font-serif text-xl font-bold tracking-wide transition-colors duration-300 ${isScrolled ? "text-emerald-dark" : "text-white"
+                                }`}
+                        >
+                            АНАНД ХУЖИРТ
+                        </span>
+                        <span
+                            className={`text-[10px] tracking-[0.3em] uppercase transition-colors duration-300 ${isScrolled ? "text-charcoal/50" : "text-white/70"
+                                }`}
+                        >
+                            С У В И Л А Л
+                        </span>
                     </a>
 
                     {/* Desktop Right Side */}

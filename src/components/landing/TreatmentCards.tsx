@@ -6,8 +6,6 @@ interface TreatmentCardProps {
     description: string;
     imageSrc: string;
     imageAlt: string;
-    price?: string;
-    priceLabel?: string;
     reverse?: boolean;
 }
 
@@ -16,8 +14,6 @@ function TreatmentCard({
     description,
     imageSrc,
     imageAlt,
-    price,
-    priceLabel,
     reverse = false,
 }: TreatmentCardProps) {
     return (
@@ -51,22 +47,9 @@ function TreatmentCard({
                 </h3>
 
                 {/* Description */}
-                <p className="text-base sm:text-lg text-charcoal/70 leading-relaxed mb-6">
+                <p className="text-base sm:text-lg text-charcoal/70 leading-relaxed">
                     {description}
                 </p>
-
-                {/* Price section */}
-                {price && (
-                    <div className="flex items-baseline gap-2">
-                        <span className="text-xs uppercase tracking-widest text-charcoal/50">
-                            {priceLabel || "Үнэ"}
-                        </span>
-                        <span className="font-serif text-2xl font-bold text-emerald">
-                            {price}
-                        </span>
-                        <span className="text-sm text-charcoal/50">/ 1 хоног</span>
-                    </div>
-                )}
             </Card>
         </div>
     );
@@ -77,31 +60,25 @@ export default function TreatmentCards() {
         {
             title: "Рашаан эмчилгээ",
             description:
-                "Байгалийн халуун рашаан усны эрдэс бодисууд таны биеийн үе мөчний өвдөлтийг намдааж, арьсны өвчлөлийг эмчилнэ. Зүрх судасны эрүүл мэндэд онцгой тустай.",
+                "Рашаанд орох үед түүний найрлага дахь азот, ус төрөгч, хүхэрт устөрөгч, цахиурын нэгдэл арьсаар нэвтэрснээр бие махбодын цусны эргэлтийн үйл ажиллагааг сайжруулж, дархлааг дэмжиж хүний сэтгэл санааг тогтуун болгож амраадаг.",
             imageSrc: "/images/mineral-water.png",
             imageAlt: "Рашаан эмчилгээ - Байгалийн халуун рашаан",
-            price: "₮110,000",
-            priceLabel: "Эхлэх үнэ",
             reverse: false,
         },
         {
             title: "Шавар эмчилгээ",
             description:
-                "Эмчилгээний шаварт агуулагдах эрдэс давсууд арьсаар нэвтрэн шимэгддэг тул үе мөчний үрэвсэл, булчингийн хөшингө байдлыг сайжруулна. Монголын уламжлалт арга.",
+                "Эмчилгээний шаварт агуулагдах эрдэс давсууд арьсаар нэвтрэн шимэгдэн, үе мөчний үрэвсэл, хаванг буруулах, бодисын солилцоог дэмжих үйлдэл үзүүлнэ.",
             imageSrc: "/images/mud-therapy.png",
             imageAlt: "Шавар эмчилгээ - Уламжлалт шавар эмчилгээ",
-            price: "₮110,000",
-            priceLabel: "Эхлэх үнэ",
             reverse: true,
         },
         {
             title: "Физик эмчилгээ",
             description:
-                "Гар эмчилгээ, бариа засал, орчин үеийн физик эмчилгээний аргуудыг хослуулан хэрэглэж биеийн нурууны болон үе мөчний өвдөлтийг бүрэн арилгана.",
+                "Биеийн био хэмнэлийн дагуу хийгдэх цахилгаан соронзон нь биеийн цусны эргэлтийг нэмэгдүүлж биед агуулагдаж буй шар усыг хөдөлгөөнд оруулж, хорт бодисыг гадагшлуулах үйлчилгээ үзүүлдэг.",
             imageSrc: "/images/physical-therapy.png",
             imageAlt: "Физик эмчилгээ - Бариа засал, массаж",
-            price: "₮120,000",
-            priceLabel: "Эхлэх үнэ",
             reverse: false,
         },
     ];
@@ -112,7 +89,7 @@ export default function TreatmentCards() {
                 {/* Section header */}
                 <div className="text-center mb-12 sm:mb-16">
                     <span className="text-emerald text-sm font-semibold tracking-[0.2em] uppercase">
-                        Эмчилгээний үйлчилгээнүүд
+                        Эрүүлээр урт наслая
                     </span>
                     <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-charcoal mt-3 font-bold">
                         Манай эмчилгээнүүд

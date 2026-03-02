@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
     return (
@@ -7,8 +8,8 @@ export default function HeroSection() {
             {/* Background Image */}
             <div className="absolute inset-0">
                 <Image
-                    src="/images/hero-bg.png"
-                    alt="Ананд Хужирт Сувиллал"
+                    src="/images/back.png"
+                    alt="Ананд Хужирт Сувилал"
                     fill
                     className="object-cover"
                     priority
@@ -23,29 +24,25 @@ export default function HeroSection() {
                 <div className="max-w-2xl">
                     {/* Main headline */}
                     <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-wide leading-tight animate-fade-in-up">
-                        ЭРҮҮЛ АМЬДРАЛЫН
+                        ЭРҮҮЛЭЭР
                         <br />
-                        <span className="text-gold-light">ХЭВ МАЯГ</span>
+                        <span className="text-blue">УРТ НАСЛАЯ</span>
                     </h1>
-
-                    {/* Sub-headline */}
-                    <p className="mt-4 text-lg sm:text-xl md:text-2xl text-white/80 font-light animate-fade-in-up animation-delay-200">
-                        Рашаан, шавар эмчилгээ
-                    </p>
 
                     {/* Year badge */}
                     <div className="mt-4 inline-flex items-center gap-2 animate-fade-in-up animation-delay-400">
-                        <div className="w-8 h-[1px] bg-gold-light" />
-                        <span className="text-gold-light text-sm tracking-[0.3em] uppercase">
-                            2026 оны шинэ хөтөлбөр
+                        <div className="w-8 h-[1px] bg-white" />
+                        <span className="text-white text-sm tracking-[0.3em] uppercase">
+                            Рашаан, шавар эмчилгээ
                         </span>
                     </div>
 
                     {/* CTA Button */}
                     <div className="mt-10 animate-fade-in-up animation-delay-600">
                         <Button asChild className="bg-emerald hover:bg-emerald-dark text-white text-lg font-semibold px-10 h-[56px] rounded-lg transition-all duration-300 hover:shadow-2xl hover:shadow-emerald/30 hover:-translate-y-0.5">
-                            <a href="/booking" id="hero-booking-btn">
+                            <a href="/booking" id="hero-booking-btn" className="inline-flex items-center gap-2">
                                 Захиалга өгөх
+                                <ArrowRight className="w-5 h-5" />
                             </a>
                         </Button>
                     </div>

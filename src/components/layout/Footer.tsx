@@ -1,5 +1,4 @@
 import { Phone, MapPin, Mail, Clock } from "lucide-react";
-import Image from "next/image";
 
 export default function Footer() {
     return (
@@ -100,17 +99,12 @@ export default function Footer() {
 
                 {/* Bottom bar */}
                 <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 relative flex-shrink-0">
-                            <Image
-                                src="/images/logo.png"
-                                alt="Ананд Хужирт лого"
-                                fill
-                                className="object-contain brightness-0 invert"
-                            />
-                        </div>
+                    <div className="flex flex-col">
                         <span className="font-serif text-lg font-bold text-white tracking-wide">
                             АНАНД ХУЖИРТ
+                        </span>
+                        <span className="text-[9px] tracking-[0.3em] uppercase text-white/50">
+                            С У В И Л А Л
                         </span>
                     </div>
                     <p className="text-white/40 text-sm">
